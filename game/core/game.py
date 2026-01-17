@@ -10,7 +10,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.state = PlayState(self.screen)
+        self.state = PlayState(self.screen, self)
 
     def run(self):
         while self.running:
@@ -27,3 +27,6 @@ class Game:
             pygame.display.flip()
 
         pygame.quit()
+
+    def restart(self):
+        self.state = PlayState(self.screen, self)
