@@ -23,6 +23,11 @@ class World:
             return self.center + direction
         return pos
     
+    def has_escaped_lake(self, pos, buffer=0):
+        direction = pos - self.center
+        distance = direction.length()
+        return distance > self.radius - buffer
+    
     def angle_to_point(self, pos):
         direction = pos-self.center
         return math.atan2(direction.y, direction.x)
