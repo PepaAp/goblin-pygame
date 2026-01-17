@@ -11,7 +11,10 @@ class PlayState:
 
     def update(self, dt):
         self.player.handle_input(dt)
-        self.goblin.update(dt)
+        self.goblin.update(dt, self.player.pos)
+
+        if self.player.collides_with(self.goblin):
+            exit()
 
     def draw(self):
         self.world.draw(self.screen)

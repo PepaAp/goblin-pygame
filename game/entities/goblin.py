@@ -4,19 +4,40 @@ from core.constants import WIDTH, HEIGHT, GOBLIN_COLOR, GOBLIN_RADIUS, GOBLIN_SP
 
 class Goblin(Entity):
     def __init__(self, world):
-        start_angle = 0
-        pos = world.center + pygame.Vector2(world.radius, 0)
-        super().__init__(pos=pos, radius=GOBLIN_RADIUS, color=GOBLIN_COLOR)
         self.speed = GOBLIN_SPEED
         self.world = world
-        self.angle = start_angle
+        self.angle = 0.0
+        
+        pos = world.center + pygame.Vector2(world.radius, 0)
+        super().__init__(pos=pos, radius=GOBLIN_RADIUS, color=GOBLIN_COLOR)
 
-    def update(self, dt):
-        self.angle += self.speed * dt
+    def update(self, dt, player_pos):
+        goblin_angle = self.angle
+        target_angle = self.world.angle_to_point(player_pos)
 
-        self.angle %= (2*math.pi)
+        diff = target_angle - goblin_angle
 
-        self.pos = self.world.center + pygame.Vector2 (
+        if diff > math.pi:
+            diff -= 2*math.pi
+        elif diff < -math.pi:
+            diff += 2*math.pi
+
+        max_turn = self.speed * dt
+
+        if diff > max_turn:
+            diff = max_turn
+        elif diff < -max_turn:
+            diff = -max_turn
+
+        self.angle += diff
+
+        self.pos = self.world.center + pygame.Vector2(
             self.world.radius * math.cos(self.angle),
             self.world.radius * math.sin(self.angle)
         )
+            
+        if self.angle > math.pi:
+            self.angle -= 2 * math.pi
+        elif self.angle < -math.pi:
+            self.angle += 2 * math.pi
+

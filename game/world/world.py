@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from core.constants import WIDTH,HEIGHT,WATER_COLOR
 
 class World:
@@ -22,3 +22,7 @@ class World:
             direction.scale_to_length(self.radius - buffer)
             return self.center + direction
         return pos
+    
+    def angle_to_point(self, pos):
+        direction = pos-self.center
+        return math.atan2(direction.y, direction.x)
