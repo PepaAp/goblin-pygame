@@ -1,0 +1,7 @@
+pygame
+pygame_gui
+pygame.math
+dataclasses
+enum
+abc
+json
